@@ -53,3 +53,15 @@ export const login = async (req, res) => {
         })
     }
 }
+
+// get All users
+export const users = async (req, res) => {
+    try {
+        let users = await User.find().sort({createdAt:-1});
+        res.json(users);
+    } catch (error) {
+        res.json({
+            message: error.message
+        })
+    }
+}
