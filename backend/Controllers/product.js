@@ -61,13 +61,13 @@ export const updateProductById = async (req, res) => {
 // delete product by id
 export const deleteProductById = async (req, res) => {
     const id = req.params.id;
-    let product = await Products.findByIdAndUpdate(id,req.body,{new: true});
+    let product = await Products.findByIdAndDelete(id);
     if(!product) {
         return res.json({
             message: "Invalid Id"
         })
     }
     res.json({
-        message: "Product has been updated", product
+        message: "Product has been deleted", product
     })
 }
