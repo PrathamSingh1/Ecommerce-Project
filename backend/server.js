@@ -3,6 +3,7 @@ dotenv.config();
 import express from 'express';
 import mongoose from 'mongoose';
 import userRouter from "./Routes/user.js";
+import productRouter from "./Routes/product.js";
 
 const app = express();
 app.use(express.json());
@@ -19,6 +20,9 @@ app.get('/', (req, res) => {
 
 // user Router
 app.use('/api/user', userRouter)
+
+// product Router
+app.use('/api/product', productRouter)
 
 mongoose.connect(process.env.DATABASE_URL,{
     dbName:"Ecommerce"
