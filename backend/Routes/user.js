@@ -12,4 +12,6 @@ router.post('/login', login)
 // get all user's
 router.get('/all', users)
 
+
+
 export default router;
