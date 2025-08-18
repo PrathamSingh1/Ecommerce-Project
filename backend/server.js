@@ -4,6 +4,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import userRouter from "./Routes/user.js";
 import productRouter from "./Routes/product.js";
+import cartRouter from "./Routes/cart.js"
 
 const app = express();
 app.use(express.json());
@@ -23,6 +24,9 @@ app.use('/api/user', userRouter)
 
 // product Router
 app.use('/api/product', productRouter)
+
+// cart Router
+app.use('/api/cart', cartRouter)
 
 mongoose.connect(process.env.DATABASE_URL,{
     dbName:"Ecommerce"

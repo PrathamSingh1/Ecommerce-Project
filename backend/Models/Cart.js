@@ -13,7 +13,7 @@ const cartItemSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        require: ture
+        require: true
     },
     qty: {
         type: Number,
