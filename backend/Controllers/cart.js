@@ -70,3 +70,21 @@ export const removeProductFromCart = async (req, res) => {
     })
 
 }
+
+// clear Cart
+export const clearCart = async (req, res) => {
+    const userId = "68a0ac4ada41b1967f356f8e";
+
+    let cart = await Cart.findOne({ userId });
+    if(!cart) {
+        cart = new Cart({items:[]})
+    } else {
+        cart.items = [];
+    }
+
+    await cart.save();
+
+    res.json({
+        message: "Cart cleared"
+    })
+}
