@@ -88,3 +88,41 @@ export const clearCart = async (req, res) => {
         message: "Cart cleared"
     })
 }
+
+// decrease qty from Cart
+export const decreaseProductQty = async (req, res) => {
+    const {productId, qty} = req.body;
+
+    const userId = "68a0ac4ada41b1967f356f8e";
+
+    let cart = await Cart.findOne({userId});
+
+    if(!cart) {
+        cart = await Cart({userId, items:[]})
+    }
+
+    const itemIndex = cart.items.findIndex((item) =>item.productId.toString() === productId)
+
+    if(itemIndex > -1) {
+        const item = cart.items[itemIndex]
+
+        if(item.qty > qty) {
+            const pricePerUnit = item.price/item.qty
+
+            item.qty -= qty
+            item.price -= pricePerUnit*qty
+        } else {
+            cart.items.splice(itemIndex,1)
+        }
+
+    } else {
+        return res.json({
+            message: "Invalid product Id"
+        })
+    }
+
+    await cart.save()
+    res.json({
+        message: "Itmes qty decreased", cart
+    })
+}
