@@ -16,7 +16,7 @@ const addressSchema = new mongoose.Schema({
         require: true
     },
     city: {
-        type: Number,
+        type: String,
         require: true
     },
     state: {
@@ -24,7 +24,7 @@ const addressSchema = new mongoose.Schema({
         require: true
     },
     country: {
-        type: Number,
+        type: String,
         require: true
     },
     pincode: {
@@ -33,7 +33,7 @@ const addressSchema = new mongoose.Schema({
     },
     
     phoneNumber: {
-        type: String,
+        type: Number,
         require: true
     },
     createdAt: {

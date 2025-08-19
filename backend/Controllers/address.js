@@ -1,6 +1,7 @@
 import { Address } from "../Models/Address.js";
 
 
+// add Address
 export const addAddress = async (req, res) => {
     let {fullName, address, city, state, country, pincode, phoneNumber} = req.body;
 
@@ -18,5 +19,14 @@ export const addAddress = async (req, res) => {
     });
     res.json({
         message: "Address added", userAddress
+    })
+};
+
+
+// get Address 
+export const getAddress = async (req, res) => {
+    let address = await Address.find({userId: req.user}).sort({createdAt: -1})
+    res.json({
+        message: "Address", userAddress: address[0]
     })
 }

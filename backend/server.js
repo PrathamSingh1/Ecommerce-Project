@@ -4,7 +4,11 @@ import express from 'express';
 import mongoose from 'mongoose';
 import userRouter from "./Routes/user.js";
 import productRouter from "./Routes/product.js";
-import cartRouter from "./Routes/cart.js"
+import cartRouter from "./Routes/cart.js";
+import addressRouter from "./Routes/address.js";
+
+
+
 
 const app = express();
 app.use(express.json());
@@ -27,6 +31,11 @@ app.use('/api/product', productRouter)
 
 // cart Router
 app.use('/api/cart', cartRouter)
+
+// address Router
+app.use('/api/address', addressRouter)
+
+
 
 mongoose.connect(process.env.DATABASE_URL,{
     dbName:"Ecommerce"
