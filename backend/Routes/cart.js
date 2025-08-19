@@ -1,11 +1,12 @@
 import express from "express";
 import { addToCart, clearCart, decreaseProductQty, removeProductFromCart, userCart } from "../Controllers/cart.js";
+import { Authenticated } from "../Middlewares/Auth.js";
 
 
 const router = express.Router();
 
 // add to cart
-router.post('/add', addToCart)
+router.post('/add', Authenticated, addToCart)
 
 // get User Cart
 router.get('/user', userCart)
