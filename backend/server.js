@@ -6,12 +6,17 @@ import userRouter from "./Routes/user.js";
 import productRouter from "./Routes/product.js";
 import cartRouter from "./Routes/cart.js";
 import addressRouter from "./Routes/address.js";
-
+import cors from "cors";
 
 
 
 const app = express();
 app.use(express.json());
+app.use(cors({
+    origin: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 app.use(express.urlencoded({ extended: true })); 
 
 // home testing route
