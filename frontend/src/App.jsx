@@ -1,12 +1,20 @@
 import { useContext } from "react"
 import AppContext from "./context/AppContext"
+import ShowProduct from "./components/product/ShowProduct"
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import ProductDetail from "./components/product/ProductDetail";
 
 function App() {
-  const {data} = useContext(AppContext)
+  // const {data} = useContext(AppContext)
   return (
-    <div>
-      {data}
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<ShowProduct />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   )
 }
 
