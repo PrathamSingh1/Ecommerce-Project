@@ -105,7 +105,7 @@ const ShowProduct = () => {
                 </span>
               </div>
               
-              <button className="px-4 py-2 bg-gradient-primary text-primary-foreground rounded-xl text-sm font-semibold hover:shadow-glow transition-all duration-300 group-hover:scale-105 flex items-center gap-2 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-90 group-hover:opacity-100 cursor-pointer">
+              <button className="px-4 py-2 bg-gradient-primary text-primary-foreground rounded-xl text-sm font-semibold hover:shadow-glow transition-all duration-300 group-hover:scale-105 flex items-center gap-2 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-90 group-hover:opacity-100 cursor-pointer hover:bg-green-500">
                 <ShoppingCart className="w-4 h-4" />
                 Add to Cart
               </button>

@@ -4,6 +4,7 @@ import ShowProduct from "./components/product/ShowProduct"
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import ProductDetail from "./components/product/ProductDetail";
 import Navbar from "./components/Navbar";
+import SearchProduct from "./components/product/SearchProduct";
 
 function App() {
   // const {data} = useContext(AppContext)
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<ShowProduct />} />
           <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/product/search/:term" element={<SearchProduct />} />
         </Routes>
       </BrowserRouter>
     </>

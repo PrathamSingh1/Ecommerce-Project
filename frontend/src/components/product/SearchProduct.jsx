@@ -1,27 +1,29 @@
 import React, { useContext, useEffect, useState } from 'react'
 import AppContext from '../../context/AppContext'
-import { Heart, ShoppingCart, Eye } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ShoppingCart, Eye } from 'lucide-react';
+import { Link, useParams } from 'react-router-dom';
 
-const RelatedProduct = ({ category }) => {
+const SearchProduct = () => {
     const {products} = useContext(AppContext);
-    const [relatedProduct, setRelatedProduct] = useState([])
+    const [searchProduct, setSearchProduct] = useState([])
 
     const [loadedImages, setLoadedImages] = useState(new Set())
 
+    const {term} = useParams()
+
     useEffect(() => {
-        setRelatedProduct(products.filter((data) => data?.category?.toLowerCase() == category?.toLowerCase()))
-    }, [category, products])
+        setSearchProduct(products.filter((data) => data?.title?.toLowerCase().includes(term.toLowerCase())))
+    }, [term, products])
 
     const handleImageLoad = (productId) => {
     setLoadedImages(prev => new Set(prev).add(productId))
   }
   return (
     <>
-        <div className='max-w-7xl mx-auto text-center'>
-            <h1>Related Product</h1>
+        <div className='max-w-7xl mx-auto text-center pt-5'>
+            <h1>Searched Product</h1>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-9 p-0 sm:p-5 sm:gap-5 sm:w-[100%] w-[80%]">
-                {relatedProduct?.map((product) => (
+                {searchProduct?.map((product) => (
                     <div
                     key={product._id}
                     className="group relative bg-gradient-subtle rounded-2xl p-6 shadow-soft hover:shadow-strong transition-all duration-300 overflow-hidden max-w-sm mx-auto"
@@ -103,4 +105,4 @@ const RelatedProduct = ({ category }) => {
   )
 }
 
-export default RelatedProduct
+export default SearchProduct
