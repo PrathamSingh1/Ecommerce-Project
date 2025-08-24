@@ -1,6 +1,33 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import AppContext from "../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+
+  const {register} = useContext(AppContext);
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: ""
+  })
+
+  const onChangeHandler = (e) => {
+    const {name, value} = e.target
+    setFormData({...formData, [name]:value})
+  }
+
+  const {name, email, password} = formData
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    const result = await register(name, email, password);
+    if(result.success) {
+      navigate('/login')
+    }
+    // console.log(formData)
+  }
+
   return (
     <div className="min-h-[100%] flex items-center justify-center bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 px-4">
       {/* Card */}
@@ -14,13 +41,16 @@ const Register = () => {
         </p>
 
         {/* Form */}
-        <form className="space-y-5">
+        <form onSubmit={submitHandler} className="space-y-5">
           {/* Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Name
             </label>
             <input
+              name="name"
+              value={formData.name}
+              onChange={onChangeHandler}
               type="text"
               placeholder="Enter your name"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
@@ -33,6 +63,9 @@ const Register = () => {
               Email
             </label>
             <input
+            name="email"
+              value={formData.email}
+              onChange={onChangeHandler}
               type="email"
               placeholder="Enter your email"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
@@ -45,6 +78,9 @@ const Register = () => {
               Password
             </label>
             <input
+              name="password"
+              value={formData.password}
+              onChange={onChangeHandler}
               type="password"
               placeholder="Enter your password"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
@@ -54,7 +90,7 @@ const Register = () => {
           {/* Register Button */}
           <button
             type="submit"
-            className="w-full py-3 bg-gradient-to-r from-primary to-purple-600 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
+            className="w-full py-3 bg-gradient-to-r from-primary to-purple-600 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] cursor-pointer"
           >
             Register
           </button>

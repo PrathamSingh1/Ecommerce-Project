@@ -51,8 +51,10 @@ const Navbar = () => {
         <div className="flex items-center gap-4 flex-shrink-0">
           {/* Desktop Icons */}
           <div className="hidden md:flex items-center gap-5">
-            <a href="#" className="text-foreground hover:text-primary transition-colors">Login</a>
-            <a href="#" className="text-foreground hover:text-primary transition-colors">Register</a>
+            
+            <Link to={`/login`} className="text-foreground hover:text-primary transition-colors">Login</Link>
+            
+            <Link to={`/register`} className="text-foreground hover:text-primary transition-colors">Register</Link>
             <ShoppingCart className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
             <User className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
           </div>
