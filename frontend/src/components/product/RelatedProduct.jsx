@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import AppContext from '../../context/AppContext'
-import { Heart, ShoppingCart, Eye } from 'lucide-react';
+import { ShoppingCart, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const RelatedProduct = ({ category }) => {
