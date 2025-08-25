@@ -3,7 +3,7 @@ import AppContext from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { register } = useContext(AppContext);
+  const { login } = useContext(AppContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -19,12 +19,12 @@ const Login = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    const result = await register(email, password);
+    const result = await login(email, password);
 
     if(result.success) {
       navigate("/");
     }
-    
+
   }
   return (
     <div className="min-h-full flex items-center justify-center bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 px-4">
