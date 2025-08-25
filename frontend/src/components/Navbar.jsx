@@ -1,17 +1,30 @@
-import React, { useState } from "react";
-import { Menu, X, ShoppingCart, User, Search } from "lucide-react";
+import React, { useContext, useState } from "react";
+import { Menu, X, ShoppingCart, User, Search, ChevronDown } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import AppContext from "../context/AppContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [inputSearch, setInputSearch] = useState("");
+  const [priceDropdown, setPriceDropdown] = useState(false);
   const navigate = useNavigate();
+
+  const { setFilteredData, products } = useContext(AppContext);
 
   const submitHandler = (e) => {
     e.preventDefault();
     navigate(`/product/search/${inputSearch}`);
-    setInputSearch("")
+    setInputSearch("");
+  };
+
+  const filterByCategory = (cat) => {
+    setFilteredData(products.filter((data) => data.category.toLowerCase() == cat.toLowerCase()))
   }
+
+  const filterByPrice = (price) => {
+    setFilteredData(products.filter((data) => data.price <= price))
+  }
+ 
 
   return (
     <nav className="w-full shadow-md bg-white/70 backdrop-blur-md sticky top-0 z-50">
@@ -19,14 +32,12 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-3">
         {/* Left Section */}
         <div className="flex items-center gap-10 flex-shrink-0">
-          {/* Logo */}
-          <Link to={`/`}>
-          <div className="text-2xl font-bold text-primary mr-5 cursor-pointer">
-            MyStore
-          </div>
+          <Link to={`/`} onClick={()=> setFilteredData(products)}>
+            <div className="text-2xl font-bold text-primary mr-5 cursor-pointer">
+              MyStore
+            </div>
           </Link>
 
-          {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
             <a href="#" className="text-foreground hover:text-primary transition-colors">Home</a>
             <a href="#" className="text-foreground hover:text-primary transition-colors">Shop</a>
@@ -35,11 +46,11 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Search Bar (center, full on mobile, fixed on desktop) */}
+        {/* Search Bar */}
         <form className="relative flex-1 sm:ml-[80px]" onSubmit={submitHandler}>
           <input
             value={inputSearch}
-            onChange={(e)=>setInputSearch(e.target.value)}
+            onChange={(e) => setInputSearch(e.target.value)}
             type="text"
             placeholder="Search products..."
             className="sm:w-[70%] w-full pl-10 pr-4 py-2 rounded-full border border-gray-200 shadow-sm focus:outline-none transition text-black"
@@ -49,17 +60,13 @@ const Navbar = () => {
 
         {/* Right Section */}
         <div className="flex items-center gap-4 flex-shrink-0">
-          {/* Desktop Icons */}
           <div className="hidden md:flex items-center gap-5">
-            
             <Link to={`/login`} className="text-foreground hover:text-primary transition-colors">Login</Link>
-            
             <Link to={`/register`} className="text-foreground hover:text-primary transition-colors">Register</Link>
             <ShoppingCart className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
             <User className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             className="md:hidden text-foreground"
             onClick={() => setIsOpen(!isOpen)}
@@ -87,15 +94,71 @@ const Navbar = () => {
 
       {/* Sub Navbar */}
       <div className="w-full border-t bg-muted/40">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex flex-wrap gap-4 justify-center">
-          {["Electronics", "Fashion", "Home", "Beauty", "Sports"].map((item) => (
+        <div className="max-w-7xl mx-auto px-6 py-3 flex flex-wrap gap-4 justify-center items-center">
+          {["electronics", "fashion", "home", "beauty", "sports"].map((item) => (
             <button
+              onClick={()=>filterByCategory(item)}
               key={item}
-              className="px-4 py-1.5 rounded-full text-sm font-medium bg-white shadow-sm text-foreground hover:bg-primary hover:text-white transition-all"
+              className="px-4 py-1.5 capitalize rounded-full text-sm font-medium bg-white shadow-sm text-foreground hover:bg-primary hover:text-[#666] transition-all cursor-pointer"
             >
               {item}
             </button>
           ))}
+
+          {/* ✅ Dropdown with Checkboxes */}
+          <div className="relative">
+            <button
+              onClick={() => setPriceDropdown(!priceDropdown)}
+              className="flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-white shadow-sm text-foreground hover:bg-primary hover:text-[#666] transition-all cursor-pointer"
+            >
+              Price <ChevronDown className="w-4 h-4" />
+            </button>
+
+            {priceDropdown && (
+              <div className="absolute top-12 left-0 w-40 bg-white shadow-lg rounded-lg p-3 space-y-2 z-50">
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input
+                    type="checkbox"
+                    onClick={()=> filterByPrice(15000)}
+                    className="accent-primary"
+                  />
+                  15000
+                </label>
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input
+                    type="checkbox"
+                    onClick={() => filterByPrice(25000)}
+                    className="accent-primary"
+                  />
+                  25000
+                </label>
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input
+                    type="checkbox"
+                    onClick={() => filterByPrice(50000)}
+                    className="accent-primary"
+                  />
+                  50000
+                </label>
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input
+                    type="checkbox"
+                    onClick={() => filterByPrice(70000)}
+                    className="accent-primary"
+                  />
+                  70000
+                </label>
+                <label className="flex items-center gap-2 text-sm cursor-pointer">
+                  <input
+                    type="checkbox"
+                    onClick={() => filterByPrice(90000)}
+                    className="accent-primary"
+                  />
+                  90000
+                </label>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>
