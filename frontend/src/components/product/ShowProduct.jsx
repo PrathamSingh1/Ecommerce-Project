@@ -4,8 +4,8 @@ import { Heart, ShoppingCart, Eye } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 const ShowProduct = () => {
-  const {products} = useContext(AppContext)
-  const [wishlistedItems, setWishlistedItems] = useState(new Set())
+  const {products, filteredData} = useContext(AppContext)
+  // const [wishlistedItems, setWishlistedItems] = useState(new Set())
   const [loadedImages, setLoadedImages] = useState(new Set())
 
   // const handleWishlist = (productId) => {
@@ -25,7 +25,7 @@ const ShowProduct = () => {
   }
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-9 p-0 sm:p-6 sm:gap-8 sm:w-[100%] w-[80%]">
-      {products?.map((product) => (
+      {filteredData?.map((product) => (
         <div
           key={product._id}
           className="group relative bg-gradient-subtle rounded-2xl p-6 shadow-soft hover:shadow-strong transition-all duration-300 overflow-hidden max-w-sm mx-auto"
