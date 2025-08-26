@@ -10,7 +10,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { setFilteredData, products } = useContext(AppContext);
+  const { setFilteredData, products, logout, isAuthenticated } = useContext(AppContext);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -62,10 +62,25 @@ const Navbar = () => {
         {/* Right Section */}
         <div className="flex items-center gap-4 flex-shrink-0">
           <div className="hidden md:flex items-center gap-5">
-            <Link to={`/login`} className="text-foreground hover:text-primary transition-colors">Login</Link>
-            <Link to={`/register`} className="text-foreground hover:text-primary transition-colors">Register</Link>
-            <ShoppingCart className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
-            <User className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
+            {!isAuthenticated && (
+              <>
+                <Link to={`/login`} className="text-foreground hover:text-primary transition-colors">Login</Link>
+                <Link to={`/register`} className="text-foreground hover:text-primary transition-colors">Register</Link>
+              </>
+            )}
+
+            {isAuthenticated && (
+              <>
+                <div onClick={()=>{
+                  logout();
+                  navigate('/')
+                }} className="text-foreground hover:text-primary transition-colors cursor-pointer">Logout</div>
+                <ShoppingCart className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
+                <User className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
+              </>
+            )}
+            
+            
           </div>
 
           <button
@@ -87,6 +102,7 @@ const Navbar = () => {
 
           <div className="flex gap-6 pt-4">
             <a href="#" className="block text-foreground hover:text-primary transition-colors">Login</a>
+            <a href="#" className="block text-foreground hover:text-primary transition-colors">Logout</a>
             <ShoppingCart className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer" />
             <User className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer" />
           </div>
