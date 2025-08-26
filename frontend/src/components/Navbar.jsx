@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Menu, X, ShoppingCart, User, Search, ChevronDown } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AppContext from "../context/AppContext";
 
 const Navbar = () => {
@@ -8,6 +8,7 @@ const Navbar = () => {
   const [inputSearch, setInputSearch] = useState("");
   const [priceDropdown, setPriceDropdown] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { setFilteredData, products } = useContext(AppContext);
 
@@ -93,7 +94,8 @@ const Navbar = () => {
       )}
 
       {/* Sub Navbar */}
-      <div className="w-full border-t bg-muted/40">
+      {location.pathname == '/' && (
+        <div className="w-full border-t bg-muted/40">
         <div className="max-w-7xl mx-auto px-6 py-3 flex flex-wrap gap-4 justify-center items-center">
           {["electronics", "fashion", "home", "beauty", "sports"].map((item) => (
             <button
@@ -161,6 +163,8 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      )}
+      
     </nav>
   );
 };

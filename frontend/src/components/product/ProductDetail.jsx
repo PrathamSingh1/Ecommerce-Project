@@ -66,19 +66,7 @@ const ProductDetail = () => {
                 No Image Available
             </div>
             )}
-            {/* Wishlist Button */}
-            <button
-            onClick={toggleAddToCart}
-            className="absolute top-4 right-4 z-10 p-3 rounded-full bg-card/80 backdrop-blur-sm hover:bg-card transition-colors duration-200"
-            >
-            <Heart
-                className={`w-5 h-5 transition-colors duration-200 ${
-                isAddToCart
-                    ? "fill-accent text-accent"
-                    : "text-muted-foreground hover:text-accent"
-                }`}
-            />
-            </button>
+          
         </div>
 
         {/* Right: Product Details */}

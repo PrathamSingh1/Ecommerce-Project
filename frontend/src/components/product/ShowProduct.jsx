@@ -5,20 +5,10 @@ import { Link } from 'react-router-dom'
 
 const ShowProduct = () => {
   const {products, filteredData} = useContext(AppContext)
-  // const [wishlistedItems, setWishlistedItems] = useState(new Set())
+ 
   const [loadedImages, setLoadedImages] = useState(new Set())
 
-  // const handleWishlist = (productId) => {
-  //   setWishlistedItems(prev => {
-  //     const newSet = new Set(prev)
-  //     if (newSet.has(productId)) {
-  //       newSet.delete(productId)
-  //     } else {
-  //       newSet.add(productId)
-  //     }
-  //     return newSet
-  //   })
-  // }
+
 
   const handleImageLoad = (productId) => {
     setLoadedImages(prev => new Set(prev).add(productId))
@@ -32,20 +22,6 @@ const ShowProduct = () => {
         >
           {/* Background Gradient Effect */}
           <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-2xl" />
-          
-          {/* Wishlist Button */}
-          {/* <button
-            onClick={() => handleWishlist(product._id)}
-            className="absolute top-4 right-4 z-10 p-2 rounded-full bg-card/80 backdrop-blur-sm hover:bg-card transition-colors duration-200"
-          >
-            <Heart 
-              className={`w-4 h-4 transition-colors duration-200 ${
-                wishlistedItems.has(product._id) 
-                  ? 'fill-accent text-accent' 
-                  : 'text-muted-foreground hover:text-accent'
-              }`}
-            />
-          </button> */}
 
           {/* Product Image */}
           <div className="relative aspect-square mb-4 overflow-hidden rounded-xl bg-muted/20">
