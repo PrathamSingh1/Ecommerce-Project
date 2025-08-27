@@ -1,18 +1,16 @@
-import React, { useContext, useState } from 'react'
-import AppContext from '../../context/AppContext'
-import { Heart, ShoppingCart, Eye } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from "react";
+import AppContext from "../../context/AppContext";
+import { Heart, ShoppingCart, Eye } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const ShowProduct = () => {
-  const {products, filteredData} = useContext(AppContext)
- 
-  const [loadedImages, setLoadedImages] = useState(new Set())
+  const { products, filteredData, addToCart } = useContext(AppContext);
 
-
+  const [loadedImages, setLoadedImages] = useState(new Set());
 
   const handleImageLoad = (productId) => {
-    setLoadedImages(prev => new Set(prev).add(productId))
-  }
+    setLoadedImages((prev) => new Set(prev).add(productId));
+  };
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-9 p-0 sm:p-6 sm:gap-8 sm:w-[100%] w-[80%]">
       {filteredData?.map((product) => (
@@ -31,7 +29,7 @@ const ShowProduct = () => {
                   src={product.imgSrc}
                   alt={product.title}
                   className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${
-                    loadedImages.has(product._id) ? 'opacity-100' : 'opacity-0'
+                    loadedImages.has(product._id) ? "opacity-100" : "opacity-0"
                   }`}
                   onLoad={() => handleImageLoad(product._id)}
                   loading="lazy"
@@ -45,18 +43,18 @@ const ShowProduct = () => {
                 <div className="text-muted-foreground text-sm">No Image</div>
               </div>
             )}
-            
+
             {/* Hover Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            
+
             {/* Quick Actions */}
-            
+
             <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-            <Link to={`/product/${product._id}`}>
-              <button className="px-4 py-2 bg-card/90 backdrop-blur-sm hover:bg-card text-foreground rounded-lg text-sm font-medium transition-colors duration-200 flex items-center gap-2 cursor-pointer">
-                <Eye className="w-4 h-4" />
-                Quick View
-              </button>
+              <Link to={`/product/${product._id}`}>
+                <button className="px-4 py-2 bg-card/90 backdrop-blur-sm hover:bg-card text-foreground rounded-lg text-sm font-medium transition-colors duration-200 flex items-center gap-2 cursor-pointer">
+                  <Eye className="w-4 h-4" />
+                  Quick View
+                </button>
               </Link>
             </div>
           </div>
@@ -80,8 +78,19 @@ const ShowProduct = () => {
                   ₹{product.price ? product.price.toLocaleString() : "N/A"}
                 </span>
               </div>
-              
-              <button className="px-4 py-2 bg-gradient-primary text-primary-foreground rounded-xl text-sm font-semibold hover:shadow-glow transition-all duration-300 group-hover:scale-105 flex items-center gap-2 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-90 group-hover:opacity-100 cursor-pointer hover:bg-green-500">
+
+              <button
+                onClick={() =>
+                  addToCart(
+                    product._id,
+                    product.title,
+                    product.price,
+                    1,
+                    product.imgSrc
+                  )
+                }
+                className="px-4 py-2 bg-gradient-primary text-primary-foreground rounded-xl text-sm font-semibold hover:shadow-glow transition-all duration-300 group-hover:scale-105 flex items-center gap-2 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-90 group-hover:opacity-100 cursor-pointer hover:bg-green-500"
+              >
                 <ShoppingCart className="w-4 h-4" />
                 Add to Cart
               </button>
@@ -91,6 +100,6 @@ const ShowProduct = () => {
       ))}
     </div>
   );
-}
+};
 
-export default ShowProduct
+export default ShowProduct;

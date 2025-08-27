@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import SearchProduct from "./components/product/SearchProduct";
 import Register from "./components/user/Register";
 import Login from "./components/user/Login";
+import Profile from "./components/user/Profile";
 
 function App() {
   // const {data} = useContext(AppContext)
@@ -22,6 +23,7 @@ function App() {
           <Route path="/product/search/:term" element={<SearchProduct />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </>
