@@ -3,7 +3,7 @@ import AppContext from "../context/AppContext";
 import { Trash2, Minus, Plus } from "lucide-react";
 
 const Cart = () => {
-  const { cart, decreaseQty } = useContext(AppContext);
+  const { cart, decreaseQty, addToCart } = useContext(AppContext);
   const [qty, setQty] = useState(0);
   const [price, setPrice] = useState(0);
 
@@ -18,7 +18,7 @@ const Cart = () => {
     }
     setPrice(price)
     setQty(qty)
-  }, [])
+  }, [cart])
 
 
   return (
@@ -64,7 +64,15 @@ const Cart = () => {
                     <Minus className="w-4 h-4" />
                   </button>
                   <span className="font-medium">{product.qty}</span>
-                  <button className="w-8 h-8 flex items-center justify-center rounded-full border bg-gray-100 hover:bg-gray-200 transition">
+                  <button onClick={() =>
+                  addToCart(
+                    product?.productId,
+                    product.title,
+                    product.price/product.qty,
+                    1,
+                    product.imgSrc
+                  )
+                } className="w-8 h-8 flex items-center justify-center rounded-full border bg-gray-100 hover:bg-gray-200 transition">
                     <Plus className="w-4 h-4" />
                   </button>
                 </div>
