@@ -21,8 +21,9 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { setFilteredData, products, logout, isAuthenticated } =
+  const { setFilteredData, products, logout, isAuthenticated, cart } =
     useContext(AppContext);
+    // console.log("user carts", cart)
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -132,7 +133,8 @@ const Navbar = () => {
               <>
                 <Link to={`/cart`} className="relative">
                 <ShoppingCart className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
-                <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">10</p>
+                
+                <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">{cart?.items?.length}</p>
                 </Link>
 
                 {/* Profile Dropdown */}
