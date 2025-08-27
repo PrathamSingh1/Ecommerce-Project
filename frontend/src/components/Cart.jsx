@@ -1,9 +1,24 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AppContext from "../context/AppContext";
 import { Trash2, Minus, Plus } from "lucide-react";
 
 const Cart = () => {
-  const { cart } = useContext(AppContext);
+  const { cart, decreaseQty } = useContext(AppContext);
+  const [qty, setQty] = useState(0);
+  const [price, setPrice] = useState(0);
+
+  useEffect(() => {
+    let qty = 0;
+    let price = 0;
+    if(cart?.items) {
+      for(let i=0; i<cart.items?.length; i++) {
+        qty += cart.items[i].qty
+        price += cart.items[i].price
+      }
+    }
+    setPrice(price)
+    setQty(qty)
+  }, [])
 
 
   return (
@@ -45,7 +60,7 @@ const Cart = () => {
               <div className="flex items-center gap-4">
                 {/* Qty Controls */}
                 <div className="flex items-center gap-2">
-                  <button className="w-8 h-8 flex items-center justify-center rounded-full border bg-gray-100 hover:bg-gray-200 transition">
+                  <button onClick={()=> decreaseQty(product.productId, 1)} className="w-8 h-8 flex items-center justify-center rounded-full border bg-gray-100 hover:bg-gray-200 transition">
                     <Minus className="w-4 h-4" />
                   </button>
                   <span className="font-medium">{product.qty}</span>
@@ -56,7 +71,7 @@ const Cart = () => {
 
                 {/* Price */}
                 <p className="font-bold text-primary w-24 text-right">
-                  ₹{(product.price * (product.qty)).toLocaleString()}
+                  ₹{product.price.toLocaleString()}
                 </p>
               </div>
 
@@ -78,7 +93,7 @@ const Cart = () => {
         <h2 className="text-xl font-bold text-foreground mb-6">Order Summary</h2>
         <div className="flex justify-between text-gray-700 mb-3">
           <span>Subtotal</span>
-          {/* <span>₹{subtotal?.toLocaleString() || 0}</span> */}
+          <span>₹{price}</span>
         </div>
         <div className="flex justify-between text-gray-700 mb-6">
           <span>Shipping</span>
@@ -86,7 +101,7 @@ const Cart = () => {
         </div>
         <div className="flex justify-between font-bold text-lg text-foreground border-t pt-4">
           <span>Total</span>
-          {/* <span>₹{subtotal?.toLocaleString() || 0}</span> */}
+          <span>₹{price}</span>
         </div>
 
         <button className="w-full mt-6 py-3 bg-gradient-to-r from-primary to-purple-600 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">

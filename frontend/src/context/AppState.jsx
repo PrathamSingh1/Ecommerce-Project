@@ -186,6 +186,34 @@ const AppState = (props) => {
     // setUser(api.data.user);
   };
 
+  // decrease qty
+  const decreaseQty = async (productId, qty) => {
+    const api = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/cart/--qty`, {productId, qty},
+      {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: token,
+        },
+        withCredentials: true,
+      }
+    );
+    // console.log("decerease cart items", api)
+    setReload(!reload);
+
+    toast.success(api.data.message, {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -200,7 +228,8 @@ const AppState = (props) => {
         logout,
         user,
         addToCart,
-        cart
+        cart,
+        decreaseQty
       }}
     >
       {props.children}
