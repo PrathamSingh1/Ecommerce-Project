@@ -3,37 +3,8 @@ import AppContext from "../context/AppContext";
 import { Trash2, Minus, Plus } from "lucide-react";
 
 const Cart = () => {
-  const { cart, setCart } = useContext(AppContext);
+  const { cart } = useContext(AppContext);
 
-  // Increase quantity
-  const increaseQty = (id) => {
-    const updatedItems = cart.items.map((item) =>
-      item._id === id ? { ...item, quantity: (item.quantity || 1) + 1 } : item
-    );
-    setCart({ ...cart, items: updatedItems });
-  };
-
-  // Decrease quantity
-  const decreaseQty = (id) => {
-    const updatedItems = cart.items.map((item) =>
-      item._id === id && (item.quantity || 1) > 1
-        ? { ...item, quantity: item.quantity - 1 }
-        : item
-    );
-    setCart({ ...cart, items: updatedItems });
-  };
-
-  // Remove item
-  const removeItem = (id) => {
-    const updatedItems = cart.items.filter((item) => item._id !== id);
-    setCart({ ...cart, items: updatedItems });
-  };
-
-  // Calculate subtotal
-  const subtotal = cart?.items?.reduce(
-    (acc, item) => acc + item.price * (item.quantity || 1),
-    0
-  );
 
   return (
     <div className="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -66,7 +37,7 @@ const Cart = () => {
                   {product.title}
                 </h2>
                 <p className="text-sm text-gray-500">
-                  Qty: {product.quantity || 1}
+                  Qty: {product.qty}
                 </p>
               </div>
 
@@ -74,32 +45,23 @@ const Cart = () => {
               <div className="flex items-center gap-4">
                 {/* Qty Controls */}
                 <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => decreaseQty(product._id)}
-                    className="w-8 h-8 flex items-center justify-center rounded-full border bg-gray-100 hover:bg-gray-200 transition"
-                  >
+                  <button className="w-8 h-8 flex items-center justify-center rounded-full border bg-gray-100 hover:bg-gray-200 transition">
                     <Minus className="w-4 h-4" />
                   </button>
-                  <span className="font-medium">{product.quantity || 1}</span>
-                  <button
-                    onClick={() => increaseQty(product._id)}
-                    className="w-8 h-8 flex items-center justify-center rounded-full border bg-gray-100 hover:bg-gray-200 transition"
-                  >
+                  <span className="font-medium">{product.qty}</span>
+                  <button className="w-8 h-8 flex items-center justify-center rounded-full border bg-gray-100 hover:bg-gray-200 transition">
                     <Plus className="w-4 h-4" />
                   </button>
                 </div>
 
                 {/* Price */}
                 <p className="font-bold text-primary w-24 text-right">
-                  ₹{(product.price * (product.quantity || 1)).toLocaleString()}
+                  ₹{(product.price * (product.qty)).toLocaleString()}
                 </p>
               </div>
 
               {/* Remove Button */}
-              <button
-                onClick={() => removeItem(product._id)}
-                className="text-red-500 hover:text-red-600 transition-colors ml-2"
-              >
+              <button className="text-red-500 hover:text-red-600 transition-colors ml-2">
                 <Trash2 className="w-5 h-5" />
               </button>
             </div>
@@ -116,7 +78,7 @@ const Cart = () => {
         <h2 className="text-xl font-bold text-foreground mb-6">Order Summary</h2>
         <div className="flex justify-between text-gray-700 mb-3">
           <span>Subtotal</span>
-          <span>₹{subtotal?.toLocaleString() || 0}</span>
+          {/* <span>₹{subtotal?.toLocaleString() || 0}</span> */}
         </div>
         <div className="flex justify-between text-gray-700 mb-6">
           <span>Shipping</span>
@@ -124,7 +86,7 @@ const Cart = () => {
         </div>
         <div className="flex justify-between font-bold text-lg text-foreground border-t pt-4">
           <span>Total</span>
-          <span>₹{subtotal?.toLocaleString() || 0}</span>
+          {/* <span>₹{subtotal?.toLocaleString() || 0}</span> */}
         </div>
 
         <button className="w-full mt-6 py-3 bg-gradient-to-r from-primary to-purple-600 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
