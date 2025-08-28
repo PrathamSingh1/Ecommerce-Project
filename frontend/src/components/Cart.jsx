@@ -3,7 +3,7 @@ import AppContext from "../context/AppContext";
 import { Trash2, Minus, Plus } from "lucide-react";
 
 const Cart = () => {
-  const { cart, decreaseQty, addToCart } = useContext(AppContext);
+  const { cart, decreaseQty, addToCart, removeFromCart } = useContext(AppContext);
   const [qty, setQty] = useState(0);
   const [price, setPrice] = useState(0);
 
@@ -84,7 +84,7 @@ const Cart = () => {
               </div>
 
               {/* Remove Button */}
-              <button className="text-red-500 hover:text-red-600 transition-colors ml-2">
+              <button onClick={()=> removeFromCart(product?.productId)} className="text-red-500 hover:text-red-600 transition-colors ml-2">
                 <Trash2 className="w-5 h-5" />
               </button>
             </div>
