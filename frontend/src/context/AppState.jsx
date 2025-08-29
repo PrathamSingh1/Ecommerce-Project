@@ -11,6 +11,7 @@ const AppState = (props) => {
   const [user, setUser] = useState();
   const [cart, setCart] = useState([]);
   const [reload, setReload] = useState(false);
+  const [userAddress, setUserAddress] = useState("");
   // const data = 10;
   useEffect(() => {
     const fetchProduct = async () => {
@@ -30,6 +31,7 @@ const AppState = (props) => {
     };
     fetchProduct();
     userCart();
+    getAddress();
   }, [token, reload]);
 
   useEffect(() => {
@@ -182,14 +184,15 @@ const AppState = (props) => {
       }
     );
     // console.log("User cart", api.data.cart)
-    setCart(api.data.cart); 
+    setCart(api.data.cart);
     // setUser(api.data.user);
   };
 
   // decrease qty
   const decreaseQty = async (productId, qty) => {
     const api = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/cart/--qty`, {productId, qty},
+      `${import.meta.env.VITE_BACKEND_URL}/cart/--qty`,
+      { productId, qty },
       {
         headers: {
           "Content-Type": "Application/json",
@@ -213,7 +216,6 @@ const AppState = (props) => {
       transition: Bounce,
     });
   };
-
 
   // remove Item from Cart
   const removeFromCart = async (productId) => {
@@ -243,7 +245,6 @@ const AppState = (props) => {
     });
   };
 
-
   // clear Cart
   const clearCart = async () => {
     const api = await axios.delete(
@@ -272,7 +273,60 @@ const AppState = (props) => {
     });
   };
 
+  // shipping Address
+  const shippingAddress = async (
+    fullName,
+    address,
+    city,
+    state,
+    country,
+    pincode,
+    phoneNumber
+  ) => {
+    const api = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/address/add`,
+      { fullName, address, city, state, country, pincode, phoneNumber },
+      {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: token,
+        },
+        withCredentials: true,
+      }
+    );
+    // console.log("decerease cart items", api)
+    setReload(!reload);
 
+    toast.success(api.data.message, {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+
+    return api.data;
+  };
+
+  // get User Latest Address
+  const getAddress = async () => {
+    const api = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/address/get`,
+      {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: token   
+        },
+        withCredentials: true,
+      }
+    );
+    // console.log("User Address" , api.data.userAddress);
+    setUserAddress(api.data.userAddress);
+  };
   return (
     <AppContext.Provider
       value={{
@@ -290,7 +344,9 @@ const AppState = (props) => {
         cart,
         decreaseQty,
         removeFromCart,
-        clearCart
+        clearCart,
+        shippingAddress,
+        userAddress
       }}
     >
       {props.children}
