@@ -1,6 +1,35 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import AppContext from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const Address = () => {
+  const {register} = useContext(AppContext);
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    fullName: "",
+    address: "",
+    city: "",
+    state: "",
+    country: "",
+    pincode: "",
+    phoneNumber: ""
+  });
+  
+  const onChangeHandler = (e) => {
+    const {name, value} = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const { fullName, address, city, state, country, pincode, phoneNumber } = formData;
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    const result = await register( fullName, address, city, state, country, pincode, phoneNumber );
+
+    if (result.success) {
+      navigate("/login");
+    }
+  }
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
       <div className="w-full max-w-2xl bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
@@ -17,9 +46,12 @@ const Address = () => {
               Full Name
             </label>
             <input
+              name="fullName"
+              value={formData.fullName}
+              onChange={onChangeHandler}
               type="text"
               placeholder="Enter your full name"
-              className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 transition"
             />
           </div>
 
@@ -30,9 +62,12 @@ const Address = () => {
                 Country
               </label>
               <input
+                name="country"
+                value={formData.country}
+                onChange={onChangeHandler}
                 type="text"
                 placeholder="Enter your country"
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 transition"
               />
             </div>
             <div>
@@ -40,9 +75,12 @@ const Address = () => {
                 State
               </label>
               <input
+                name="state"
+                value={formData.state}
+                onChange={onChangeHandler}
                 type="text"
                 placeholder="Enter your state"
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 transition"
               />
             </div>
           </div>
@@ -54,9 +92,12 @@ const Address = () => {
                 City
               </label>
               <input
+                name="city"
+                value={formData.city}
+                onChange={onChangeHandler}
                 type="text"
                 placeholder="Enter your city"
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 transition"
               />
             </div>
             <div>
@@ -64,9 +105,12 @@ const Address = () => {
                 Pincode
               </label>
               <input
-                type="text"
+                name="pincode"
+                value={formData.pincode}
+                onChange={onChangeHandler}
+                type="number"
                 placeholder="Enter your pincode"
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 transition"
               />
             </div>
           </div>
@@ -77,9 +121,12 @@ const Address = () => {
               Phone Number
             </label>
             <input
-              type="text"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={onChangeHandler}
+              type="number"
               placeholder="Enter your phone number"
-              className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 transition"
             />
           </div>
 
@@ -89,9 +136,13 @@ const Address = () => {
               Address Line / Nearby
             </label>
             <textarea
+              name="address"
+              value={formData.address}
+              onChange={onChangeHandler}
+              type="text"
               rows="3"
               placeholder="Enter your full address"
-              className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition resize-none"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 resize-none"
             />
           </div>
 
