@@ -27,10 +27,15 @@ const Cart = () => {
       <div className="lg:col-span-2 space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold text-foreground mb-4">Your Cart</h1>
-          <button onClick={clearCart} className="transition-colors ml-2 flex items-center gap-2 p-2 cursor-pointer">
-                Clear Cart
-                <Trash2 className="w-5 h-5 text-red-500" />
-          </button>
+          {cart?.items?.length > 0 && (
+            <>
+              <button onClick={clearCart} className="transition-colors ml-2 flex items-center gap-2 p-2 cursor-pointer">
+                  Clear Cart
+                  <Trash2 className="w-5 h-5 text-red-500" />
+              </button>
+            </>
+          )}
+          
         </div>
         
 
@@ -103,26 +108,32 @@ const Cart = () => {
         )}
       </div>
 
-      {/* Cart Summary */}
-      <div className="bg-white rounded-2xl shadow-md p-6 h-fit border border-gray-200">
-        <h2 className="text-xl font-bold text-foreground mb-6">Order Summary</h2>
-        <div className="flex justify-between text-gray-700 mb-3">
-          <span>Subtotal</span>
-          <span>₹{price}</span>
-        </div>
-        <div className="flex justify-between text-gray-700 mb-6">
-          <span>Shipping</span>
-          <span className="text-green-600">Free</span>
-        </div>
-        <div className="flex justify-between font-bold text-lg text-foreground border-t pt-4">
-          <span>Total</span>
-          <span>₹{price}</span>
-        </div>
+      {cart?.items?.length > 0 && (
+        <>
+          {/* Cart Summary */}
+          <div className="bg-white rounded-2xl shadow-md p-6 h-fit border border-gray-200">
+            <h2 className="text-xl font-bold text-foreground mb-6">Order Summary</h2>
+            <div className="flex justify-between text-gray-700 mb-3">
+              <span>Subtotal</span>
+              <span>₹{price}</span>
+            </div>
+            <div className="flex justify-between text-gray-700 mb-6">
+              <span>Shipping</span>
+              <span className="text-green-600">Free</span>
+            </div>
+            <div className="flex justify-between font-bold text-lg text-foreground border-t pt-4">
+              <span>Total</span>
+              <span>₹{price}</span>
+            </div>
 
-        <button className="w-full mt-6 py-3 bg-gradient-to-r from-primary to-purple-600 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
-          Proceed to Checkout
-        </button>
-      </div>
+            <button className="w-full mt-6 py-3 bg-gradient-to-r from-primary to-purple-600 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
+              Proceed to Checkout
+            </button>
+          </div>
+        </>
+      )}
+
+      
     </div>
   );
 };
