@@ -10,6 +10,7 @@ import Register from "./components/user/Register";
 import Login from "./components/user/Login";
 import Profile from "./components/user/Profile";
 import Cart from "./components/Cart";
+import Address from "./components/Address";
 
 function App() {
   // const {data} = useContext(AppContext)
@@ -26,6 +27,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/shipping" element={<Address />} />
         </Routes>
       </BrowserRouter>
     </>

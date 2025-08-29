@@ -17,13 +17,12 @@ const Navbar = () => {
   const [priceDropdown, setPriceDropdown] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
-  const profileRef = useRef(null); // 👈 ref for click outside
+  const profileRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
 
   const { setFilteredData, products, logout, isAuthenticated, cart } =
     useContext(AppContext);
-    // console.log("user carts", cart)
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -67,38 +66,15 @@ const Navbar = () => {
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            <a
-              href="#"
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              Home
-            </a>
-            <a
-              href="#"
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              Shop
-            </a>
-            <a
-              href="#"
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              About
-            </a>
-            <a
-              href="#"
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              Contact
-            </a>
+            <a href="#" className="text-foreground hover:text-primary transition-colors">Home</a>
+            <a href="#" className="text-foreground hover:text-primary transition-colors">Shop</a>
+            <a href="#" className="text-foreground hover:text-primary transition-colors">About</a>
+            <a href="#" className="text-foreground hover:text-primary transition-colors">Contact</a>
           </div>
         </div>
 
         {/* Search Bar */}
-        <form
-          className="relative flex-1 sm:ml-[80px]"
-          onSubmit={submitHandler}
-        >
+        <form className="relative flex-1 sm:ml-[80px]" onSubmit={submitHandler}>
           <input
             value={inputSearch}
             onChange={(e) => setInputSearch(e.target.value)}
@@ -114,27 +90,18 @@ const Navbar = () => {
           <div className="hidden md:flex items-center gap-5">
             {!isAuthenticated && (
               <>
-                <Link
-                  to={`/login`}
-                  className="text-foreground hover:text-primary transition-colors"
-                >
-                  Login
-                </Link>
-                <Link
-                  to={`/register`}
-                  className="text-foreground hover:text-primary transition-colors"
-                >
-                  Register
-                </Link>
+                <Link to={`/login`} className="text-foreground hover:text-primary transition-colors">Login</Link>
+                <Link to={`/register`} className="text-foreground hover:text-primary transition-colors">Register</Link>
               </>
             )}
 
             {isAuthenticated && (
               <>
                 <Link to={`/cart`} className="relative">
-                <ShoppingCart className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
-                
-                <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">{cart?.items?.length}</p>
+                  <ShoppingCart className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
+                  <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
+                    {cart?.items?.length}
+                  </p>
                 </Link>
 
                 {/* Profile Dropdown */}
@@ -169,72 +136,45 @@ const Navbar = () => {
       {/* Mobile Dropdown */}
       {isOpen && (
         <div className="md:hidden bg-white/90 backdrop-blur-md shadow-md px-6 py-4 space-y-4">
-          <a
-            href="#"
-            className="block text-foreground hover:text-primary transition-colors"
-          >
-            Home
-          </a>
-          <a
-            href="#"
-            className="block text-foreground hover:text-primary transition-colors"
-          >
-            Shop
-          </a>
-          <a
-            href="#"
-            className="block text-foreground hover:text-primary transition-colors"
-          >
-            About
-          </a>
-          <a
-            href="#"
-            className="block text-foreground hover:text-primary transition-colors"
-          >
-            Contact
-          </a>
+          <a href="#" className="block text-foreground hover:text-primary transition-colors">Home</a>
+          <a href="#" className="block text-foreground hover:text-primary transition-colors">Shop</a>
+          <a href="#" className="block text-foreground hover:text-primary transition-colors">About</a>
+          <a href="#" className="block text-foreground hover:text-primary transition-colors">Contact</a>
 
-          <div className="flex gap-6 pt-4">
+          <div className="flex gap-6 pt-4 items-center">
             {!isAuthenticated ? (
               <>
-                <Link
-                  to={`/login`}
-                  className="text-foreground hover:text-primary transition-colors"
-                >
-                  Login
-                </Link>
-                <Link
-                  to={`/register`}
-                  className="text-foreground hover:text-primary transition-colors"
-                >
-                  Register
-                </Link>
+                <Link to={`/login`} className="text-foreground hover:text-primary transition-colors">Login</Link>
+                <Link to={`/register`} className="text-foreground hover:text-primary transition-colors">Register</Link>
               </>
             ) : (
               <>
-                <div
-                  onClick={() => {
-                    logout();
-                    navigate("/");
-                  }}
-                  className="text-foreground hover:text-primary transition-colors cursor-pointer"
-                >
-                  Logout
-                </div>
-                <ShoppingCart className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer" />
-                <User
-                  onClick={() => setShowProfile((prev) => !prev)}
-                  className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer"
-                />
-                {showProfile && (
-                  <Profile
-                    onLogout={() => {
-                      logout();
-                      navigate("/");
-                      setShowProfile(false);
-                    }}
+                {/* Cart */}
+                <Link to={`/cart`} className="relative">
+                  <ShoppingCart className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer" />
+                  <p className="absolute right-[-10px] top-[-8px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
+                    {cart?.items?.length}
+                  </p>
+                </Link>
+
+                {/* Profile */}
+                <div className="relative" ref={profileRef}>
+                  <User
+                    onClick={() => setShowProfile((prev) => !prev)}
+                    className="w-5 h-5 text-muted-foreground hover:text-primary cursor-pointer"
                   />
-                )}
+                  {showProfile && (
+                    <div className="fixed top-0 right-0 w-64 h-full bg-white shadow-lg z-50 p-5">
+                      <Profile
+                        onLogout={() => {
+                          logout();
+                          navigate("/");
+                          setShowProfile(false);
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
               </>
             )}
           </div>
@@ -269,10 +209,7 @@ const Navbar = () => {
               {priceDropdown && (
                 <div className="absolute top-12 left-0 w-40 bg-white shadow-lg rounded-lg p-3 space-y-2 z-50">
                   {[15000, 25000, 50000, 70000, 90000].map((price) => (
-                    <label
-                      key={price}
-                      className="flex items-center gap-2 text-sm cursor-pointer"
-                    >
+                    <label key={price} className="flex items-center gap-2 text-sm cursor-pointer">
                       <input
                         type="checkbox"
                         onClick={() => filterByPrice(price)}
