@@ -244,6 +244,34 @@ const AppState = (props) => {
   };
 
 
+  // clear Cart
+  const clearCart = async () => {
+    const api = await axios.delete(
+      `${import.meta.env.VITE_BACKEND_URL}/cart/clear`,
+      {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: token,
+        },
+        withCredentials: true,
+      }
+    );
+    // console.log("decerease cart items", api)
+    setReload(!reload);
+
+    toast.success(api.data.message, {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
+
 
   return (
     <AppContext.Provider
@@ -261,7 +289,8 @@ const AppState = (props) => {
         addToCart,
         cart,
         decreaseQty,
-        removeFromCart
+        removeFromCart,
+        clearCart
       }}
     >
       {props.children}

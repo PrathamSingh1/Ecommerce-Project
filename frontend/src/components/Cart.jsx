@@ -3,7 +3,7 @@ import AppContext from "../context/AppContext";
 import { Trash2, Minus, Plus } from "lucide-react";
 
 const Cart = () => {
-  const { cart, decreaseQty, addToCart, removeFromCart } = useContext(AppContext);
+  const { cart, decreaseQty, addToCart, removeFromCart, clearCart } = useContext(AppContext);
   const [qty, setQty] = useState(0);
   const [price, setPrice] = useState(0);
 
@@ -25,7 +25,14 @@ const Cart = () => {
     <div className="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
       {/* Cart Items */}
       <div className="lg:col-span-2 space-y-6">
-        <h1 className="text-2xl font-bold text-foreground mb-4">Your Cart</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-foreground mb-4">Your Cart</h1>
+          <button onClick={clearCart} className="transition-colors ml-2 flex items-center gap-2 p-2 cursor-pointer">
+                Clear Cart
+                <Trash2 className="w-5 h-5 text-red-500" />
+          </button>
+        </div>
+        
 
         {cart?.items?.length > 0 ? (
           cart.items.map((product) => (
