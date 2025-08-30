@@ -37,10 +37,11 @@ const Checkout = () => {
             <div className="space-y-2 text-gray-700">
               <p><span className="font-medium">Name:</span> {userAddress.fullName}</p>
               <p><span className="font-medium">Phone:</span> {userAddress.phoneNumber}</p>
-              <p>
-                <span className="font-medium">Address:</span>{" "}
-                {userAddress.address}, {userAddress.city}, {userAddress.state} - {userAddress.pincode}, {userAddress.country}
-              </p>
+              <p><span className="font-medium">City:</span> {userAddress.city}</p>
+              <p><span className="font-medium">State:</span> {userAddress.state}</p>
+              <p><span className="font-medium">Pincode:</span> {userAddress.pincode}</p>
+              <p><span className="font-medium">Country:</span> {userAddress.country}</p>
+              <p><span className="font-medium">Address:</span> {userAddress.address}</p>
             </div>
           ) : (
             <p className="text-gray-500">No shipping address found. Please add one.</p>
