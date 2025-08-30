@@ -33,6 +33,7 @@ const Checkout = () => {
             Shipping Address
           </h2>
 
+
           {userAddress ? (
             <div className="space-y-2 text-gray-700">
               <p><span className="font-medium">Name:</span> {userAddress.fullName}</p>
