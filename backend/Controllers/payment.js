@@ -8,6 +8,8 @@ const razorpay = new Razorpay({
 });
 
 
+
+// checkout function
 export const checkout = async (req, res) => {
     const {amount, cartItems, userShipping, userId} = req.body;
 
@@ -26,4 +28,10 @@ export const checkout = async (req, res) => {
         userId,
         payStatus: "created"
     })
+}
+
+
+// verify function
+export const verify = async (req, res) => {
+  
 }
