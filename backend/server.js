@@ -6,6 +6,7 @@ import userRouter from "./Routes/user.js";
 import productRouter from "./Routes/product.js";
 import cartRouter from "./Routes/cart.js";
 import addressRouter from "./Routes/address.js";
+import paymentRouter from "./Routes/payment.js";
 import cors from "cors";
 
 
@@ -40,6 +41,8 @@ app.use('/api/cart', cartRouter)
 // address Router
 app.use('/api/address', addressRouter)
 
+// payment Router
+app.use('/api/payment', paymentRouter)
 
 
 mongoose.connect(process.env.DATABASE_URL,{
