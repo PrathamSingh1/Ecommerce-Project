@@ -3,7 +3,7 @@ import AppContext from "../context/AppContext";
 
 const Checkout = () => {
   const { cart, userAddress } = useContext(AppContext); 
-  // userAddress should come from context or backend
+
   const [price, setPrice] = useState(0);
   const [qty, setQty] = useState(0);
 
