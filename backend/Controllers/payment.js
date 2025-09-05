@@ -60,3 +60,15 @@ export const verify = async (req, res) => {
     message: "Payment Successful", success: true, orderConfirm
   })
 }
+
+
+// user specific order
+export const userOrder = async (req, res) => {
+  let userId = req.user._id.toString();
+  let order = await Payment.find({userId: userId}).sort({ orderDate: -1 });
+  res.json({
+    order
+  })
+}
+
+
