@@ -72,3 +72,10 @@ export const userOrder = async (req, res) => {
 }
 
 
+// all order 
+export const allOrders = async (req, res) => {
+  let orders = await Payment.find().sort({ orderDate: -1 });
+  res.json({
+    orders
+  })
+}
