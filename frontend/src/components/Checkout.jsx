@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import AppContext from "../context/AppContext";
+import axios from "axios";
 
 const Checkout = () => {
-  const { cart, userAddress } = useContext(AppContext); 
+  const { cart, userAddress, user } = useContext(AppContext); 
 
   const [price, setPrice] = useState(0);
   const [qty, setQty] = useState(0);
@@ -19,6 +20,21 @@ const Checkout = () => {
     setPrice(totalPrice);
     setQty(totalQty);
   }, [cart]);
+
+  const handlePayment = async () => {
+    try {
+      const orderResponse = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/payment/checkout`, {
+        amount: price,
+        cartItems: cart?.items,
+        userShipping: userAddress,
+        userId: user._id
+      });
+
+      console.log("order response", orderResponse)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-6 sm:p-8">
@@ -109,6 +125,7 @@ const Checkout = () => {
 
               {/* Pay Button */}
               <button
+                onClick={handlePayment}
                 className="w-full mt-6 py-3 bg-gradient-to-r from-primary to-purple-600 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] cursor-pointer"
               >
                 Proceed to Pay
