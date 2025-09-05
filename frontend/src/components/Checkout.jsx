@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import AppContext from "../context/AppContext";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const Checkout = () => {
-  const { cart, userAddress, user } = useContext(AppContext); 
+  const { cart, userAddress, user, clearCart } = useContext(AppContext); 
+
+  const navigate = useNavigate();
 
   const [price, setPrice] = useState(0);
   const [qty, setQty] = useState(0);
@@ -25,12 +28,59 @@ const Checkout = () => {
     try {
       const orderResponse = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/payment/checkout`, {
         amount: price,
+        qty: qty,
         cartItems: cart?.items,
         userShipping: userAddress,
         userId: user._id
       });
 
       console.log("order response", orderResponse)
+      const {orderId, amount:orderAmount} = orderResponse.data
+
+
+      var options = {
+        "key": import.meta.env.VITE_RAZORPAY_TEST_ID, // Enter the Key ID generated from the Dashboard
+        "amount": orderAmount*100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Ecommerce Project",
+        "description": "Ecommerce Project",
+        "order_id": orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": async function (response){
+          const paymentData = {
+            orderId: response.razorpay_order_id,
+            paymentId: response.razorpay_payment_id,
+            signature: response.razorpay_signature,
+            amount: orderAmount,
+            orderItems: cart?.items,
+            userId: user._id,
+            userShipping: userAddress
+          }
+
+          const api = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/payment/verify-payment`, paymentData);
+          
+          console.log("razorpay res", api.data);
+
+          if (api.data.success) {
+            clearCart();
+            navigate("/orderconfirmation");
+          }
+
+        },
+        "prefill": {
+            "name": "Shashi Ranjan Singh",
+            "email": "prathamjii36@gmail.com",
+            "contact": "9125049250"
+        },
+        "notes": {
+            "address": "Noida"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+
     } catch (error) {
       console.log(error)
     }

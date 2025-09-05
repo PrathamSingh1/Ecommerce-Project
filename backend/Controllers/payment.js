@@ -1,10 +1,12 @@
 import { Payment } from "../Models/Payment.js";
+import dotenv from "dotenv";
+dotenv.config();
 import Razorpay from 'razorpay';
 
 
 const razorpay = new Razorpay({
-  key_id: '<your_partner_key>',
-  key_secret: '<your_partner_secret>',
+  key_id: process.env.RAZORPAY_TEST_ID,
+  key_secret: process.env.RAZORPAY_TEST_SECRET,
 });
 
 
@@ -31,7 +33,30 @@ export const checkout = async (req, res) => {
 }
 
 
-// verify function
+// verify and save to db function
 export const verify = async (req, res) => {
-  
+  const {
+    orderId,
+    paymentId,
+    signature,
+    amount,
+    orderItems,
+    userId,
+    userShipping,
+  } = req.body;
+
+  let orderConfirm = await Payment.create({
+    orderId,
+    paymentId,
+    signature,
+    amount,
+    orderItems,
+    userId,
+    userShipping,
+    payStatus: "Paid"
+  });
+
+  res.json({
+    message: "Payment Successful", success: true, orderConfirm
+  })
 }
