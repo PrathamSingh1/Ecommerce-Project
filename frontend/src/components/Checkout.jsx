@@ -34,7 +34,7 @@ const Checkout = () => {
         userId: user._id
       });
 
-      console.log("order response", orderResponse)
+      // console.log("order response", orderResponse)
       const {orderId, amount:orderAmount} = orderResponse.data
 
 
@@ -58,7 +58,7 @@ const Checkout = () => {
 
           const api = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/payment/verify-payment`, paymentData);
           
-          console.log("razorpay res", api.data);
+          // console.log("razorpay res", api.data);
 
           if (api.data.success) {
             clearCart();

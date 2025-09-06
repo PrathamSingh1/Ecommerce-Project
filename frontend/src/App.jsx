@@ -12,6 +12,7 @@ import Profile from "./components/user/Profile";
 import Cart from "./components/Cart";
 import Address from "./components/Address";
 import Checkout from "./components/Checkout";
+import OrderConfirmation from "./components/OrderConfirmation";
 
 function App() {
   // const {data} = useContext(AppContext)
@@ -30,6 +31,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/shipping" element={<Address />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/orderconfirmation" element={<OrderConfirmation/>} />
         </Routes>
       </BrowserRouter>
     </>

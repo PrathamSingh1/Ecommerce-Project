@@ -12,6 +12,7 @@ const AppState = (props) => {
   const [cart, setCart] = useState([]);
   const [reload, setReload] = useState(false);
   const [userAddress, setUserAddress] = useState("");
+  const [userOrder, setUserOrder] = useState([])
   // const data = 10;
   useEffect(() => {
     const fetchProduct = async () => {
@@ -32,6 +33,7 @@ const AppState = (props) => {
     fetchProduct();
     userCart();
     getAddress();
+    user_Order();
   }, [token, reload]);
 
   useEffect(() => {
@@ -327,6 +329,29 @@ const AppState = (props) => {
     // console.log("User Address" , api.data.userAddress);
     setUserAddress(api.data.userAddress);
   };
+
+
+  // get User Order
+  const user_Order = async () => {
+    const api = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/payment/userorder`,
+      {
+        headers: {
+          "Content-Type": "Application/json",
+          Authorization: token   
+        },
+        withCredentials: true,
+      }
+    );
+    // console.log("User Order" , api.data);
+    setUserOrder(api.data.order);
+  };
+
+  console.log("user order", userOrder);
+
+
+
+
   return (
     <AppContext.Provider
       value={{
@@ -346,7 +371,8 @@ const AppState = (props) => {
         removeFromCart,
         clearCart,
         shippingAddress,
-        userAddress
+        userAddress,
+        userOrder
       }}
     >
       {props.children}
